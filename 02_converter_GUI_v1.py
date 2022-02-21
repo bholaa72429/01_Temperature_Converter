@@ -75,28 +75,30 @@ class Converter:
     def temp_convert(self, to):
         print(to)
 
+        error = "#ffafaf" # Pale pink bg for when entry box has error
+
         # Retrieve amount entered into Entry field
         to_convert = self.to_convert_entry.get()
 
         try:
             to_convert = float(to_convert)
-            print("yay")
+
+
+            # Check amount is a valid number
+
+            # Convert to F
+
+            # Convert to C
+
+            # Round!!
+
+            # Display answer
+
+            # Add Answer to list for history
 
         except ValueError:
-            print("oops")
-
-
-        # Check amount is a valid number
-
-        # Convert to F
-
-        # Convert to C
-
-        # Round!!
-
-        # Display answer
-
-        # Add Answer to list for history
+            self.converter_label.configure(text="Enter a number!!", fg="red")
+            self.to_convert_entry.configure(bg=error)
 
 
 
