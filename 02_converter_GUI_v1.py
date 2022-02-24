@@ -10,14 +10,14 @@ class Converter:
         background_color = "light blue"
 
         # Converter Frame
-        self.converter_frame = Frame(width=300, bg=background_color,
+        self.converter_frame = Frame(bg=background_color,
                                      pady=10)
         self.converter_frame.grid()
 
         # Temperature Converter heading (row 0)
         self.temp_heading_label = Label(self.converter_frame,
-                                        text="Temperature Coverter",
-                                            font="Arial 16 bold",
+                                        text="Temperature Converter",
+                                            font="Arial 19 bold",
                                             bg=background_color,
                                             padx=10, pady=10)
         self.temp_heading_label.grid(row=0)
@@ -27,7 +27,7 @@ class Converter:
                                             text="Type in the amount to be"
                                                  "converted and then push"
                                                  "one of the buttons below...",
-                                            font="Arial 10 italic", wrap=250,
+                                            font="Arial 10 italic", wrap=290,
                                             justify=LEFT, bg=background_color,
                                             padx=10, pady=10)
         self.temp_instruction_label.grid(row=1)
@@ -72,33 +72,54 @@ class Converter:
                                   text="Help", width=5)
         self.help_button.grid(row=0, column=1)
 
-    def temp_convert(self, to):
-        print(to)
+    def temp_convert(self, low):
+        print(low)
 
-        error = "#ffafaf" # Pale pink bg for when entry box has error
+        error = "#ffafaf" # Pale pink bg for when entry box has errors
 
         # Retrieve amount entered into Entry field
         to_convert = self.to_convert_entry.get()
 
         try:
             to_convert = float(to_convert)
+            has_errors = "no"
 
 
-            # Check amount is a valid number
+            # Check and convert to Fargrenheit
+            if low == -273 and to_convert >= low:
+                fahrenheit = (to_convert * 9/5) + 32
+                to_convert = self.round_it(to_convert)
+                fahrenheit = self.round_it(fahrenheit)
+                answer = "{} degrees C is {} degrees F".format(to_convert, fahrenheit)
 
-            # Convert to F
 
-            # Convert to C
+            # Check and convert to Centigrade
+            elif low == -459 and to_convert >= low:
+                celsius = (to_convert - 32) * 5/9
+                to_convert = self.round_it(to_convert)
+                celsius = self.round_it(celsius)
+                answer = "{} degrees C is {} degrees F".format(to_convert, celsius)
 
-            # Round!!
+            else:
+                # Input is valid (too cold)
+                answer = "Too cold!!"
+                has_errors = "yes"
 
             # Display answer
+            if has_errors == "no":
+                self.converted_label.configure(text=answer, fg="blue")
+                self.to_convert_entry.configure(bg="white")
+
+            else:
+                self.converted_label.configure(text=answer, fg="red")
+                self.to_convert_entry.configure(bg=error)
 
             # Add Answer to list for history
 
         except ValueError:
-            self.converter_label.configure(text="Enter a number!!", fg="red")
+            self.converted_label.configure(text="Enter a number!!", fg="red")
             self.to_convert_entry.configure(bg=error)
+
 
 
 
