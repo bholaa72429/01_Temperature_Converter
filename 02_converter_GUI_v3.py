@@ -3,11 +3,15 @@ from functools import partial # to prevent unwanted windows
 
 import random
 
+
 class Converter:
     def __init__(self, parent):
 
         # formatting variable
         background_color = "light blue"
+
+        # Initialise list to hold calculation history
+        self.all_calculations = []
 
         # Converter Frame
         self.converter_frame = Frame(bg=background_color,
@@ -115,6 +119,9 @@ class Converter:
                 self.to_convert_entry.configure(bg=error)
 
             # Add Answer to list for history
+            if answer != "Too Cold":
+                self.all_calculations.append(answer)
+                print(self.all_calculations)
 
         except ValueError:
             self.converted_label.configure(text="Enter a number!!", fg="red")
