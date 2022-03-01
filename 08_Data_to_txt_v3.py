@@ -3,11 +3,15 @@
 
 import re
 
+
+# data to be outputted
+data = ['I','love','computers']
+
+
 has_error = "yes"
 while has_error == "yes":
-    print()
-    filename = input("Enter a filename: ")
     has_error = "no"
+    filename = input("Enter a filename (leave off the extension): ")
 
     valid_char = "[A-Za-z0-9_]"
     for letter in filename:
@@ -28,3 +32,16 @@ while has_error == "yes":
         print("Invalid filename - {}".format(problem))
     else:
         print("You entered a valid filename")
+
+# add .txt suffix
+filename = filename + ".txt"
+
+# create file to hold data
+f = open(filename, "w+")
+
+# add new line at the end of each item
+for item in data:
+    f.write(item + "\n")
+
+# close file
+f.close()
