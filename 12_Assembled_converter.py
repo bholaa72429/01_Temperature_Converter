@@ -214,7 +214,7 @@ class History:
 
         # Export Button
         self.export_button = Button(self.export_dismiss_frame, text="Export",
-                                    font="Arial 12 bold")
+                                    font="Arial 12 bold", command=lambda: self.export(calc_history))
         self.export_button.grid(row=0, column=0)
 
         # Dismiss Button
@@ -231,10 +231,11 @@ class History:
     def export(self, calc_history):
         Export(self, calc_history)
 
-class Export:
 
+class Export:
     def __init__(self, partner, calc_history):
 
+        print(calc_history)
 
         background = "#a9ef99"  # Pale green
 
@@ -258,9 +259,9 @@ class Export:
 
         # history text (label, row 1 )
         self.export_text = Label(self.export_frame,
-                                 text="Enter a filename "
+                                 text="Enter a filename"
                                       "in the box below"
-                                      "and press the SAVE "
+                                      "and press the SAVE"
                                       "button to save your "
                                       "calculation history"
                                       "to the text file",
@@ -274,7 +275,7 @@ class Export:
                                                          "already exists,"
                                                          "its content will be "
                                                          "replaced with your calculation history",
-                                 justify=LEFT, bg='#ffafaf', fg='maroon',
+                                 justify=LEFT, bg='#ffafaf', fg='#800000',
                                  font="Arial 10 italic", wrap=225, padx=10, pady=10)
         self.export_text.grid(row=2, pady=10)
 
@@ -284,7 +285,7 @@ class Export:
         self.filename_entry.grid(row=3, pady=10)
 
         # Error Message Labels
-        self.save_error_label = Label(self.export_frame, text="", fg="maroon,",
+        self.save_error_label = Label(self.export_frame, text="", fg="#800000",
                                       bg=background)
         self.save_error_label.grid(row=4)
 
@@ -293,8 +294,8 @@ class Export:
         self.save_cancel_frame.grid(row=5, pady=10)
 
         # Save \ Cancel BUTTON (row 0 of save_cancel_frame)
-        self.save_button = Button(self.save_cancel_frame, text="save",
-                                  command=partner(lambda: self.save_history(partner, calc_history)))
+        self.save_button = Button(self.save_cancel_frame, text="Save",
+                                  command=partial(lambda: self.save_history(partner, calc_history)))
         self.save_button.grid(row=0, column=0)
 
         self.cancel_button = Button(self.save_cancel_frame, text="Cancel",
@@ -307,8 +308,11 @@ class Export:
         valid_char = "[A-Za-z0-9_]"
         has_error = "no"
 
-        filename = input("Enter a filename: ")
+        filename = self.filename_entry.get()
         print(filename)
+
+        # filename = input("Enter a filename: ")
+        # print(filename)
 
         for letter in filename:
             if re.match(valid_char, letter):
